@@ -14,8 +14,8 @@ async function fetchWithAuth(endpoint: string, options: RequestInit = {}) {
   });
 
   if (!response.ok) {
-    const error = await response.json().catch(() => ({ message: 'An error occurred' }));
-    throw new Error(error.message || 'Something went wrong');
+    const error = await response.json().catch(() => ({ error: 'An error occurred' }));
+    throw new Error(error.error || error.message || 'Something went wrong');
   }
 
   return response.json();

@@ -1,15 +1,18 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
 import { MapPin, Users } from 'lucide-react';
 import type { Hall } from '../types';
 
 interface HallCardProps {
   hall: Hall;
+  onClick?: () => void;
 }
 
-export function HallCard({ hall }: HallCardProps) {
+export function HallCard({ hall, onClick }: HallCardProps) {
   return (
-    <div className="bg-white rounded-lg overflow-hidden shadow-md transition-transform hover:scale-[1.02]">
+    <div 
+      className="bg-white rounded-lg overflow-hidden shadow-md transition-transform hover:scale-[1.02] cursor-pointer"
+      onClick={onClick}
+    >
       <img
         src={hall.image_url || "https://images.unsplash.com/photo-1517457373958-b7bdd4587205?auto=format&fit=crop&q=80&w=800&h=600"}
         alt={hall.name}
@@ -47,15 +50,18 @@ export function HallCard({ hall }: HallCardProps) {
           </div>
         </div>
 
-        <Link
-          to={`/halls/${hall.id}`}
+        <button
+          onClick={(e) => {
+            e.stopPropagation();
+            onClick?.();
+          }}
           className="inline-flex items-center text-indigo-600 hover:text-indigo-800 font-medium"
         >
           View Details
           <svg className="w-4 h-4 ml-1" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
             <path d="M5 12h14M12 5l7 7-7 7" />
           </svg>
-        </Link>
+        </button>
       </div>
     </div>
   );
