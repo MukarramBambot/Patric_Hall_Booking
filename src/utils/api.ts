@@ -1,4 +1,4 @@
-const API_URL = 'http://localhost:5000/api';
+const API_URL = process.env.REACT_APP_API_URL || 'http://localhost:5000/api';
 
 async function fetchWithAuth(endpoint: string, options: RequestInit = {}) {
   const token = localStorage.getItem('token');
@@ -21,6 +21,15 @@ async function fetchWithAuth(endpoint: string, options: RequestInit = {}) {
   return response.json();
 }
 
+async function login(username: string, password: string) {
+  const res = await fetch(`${API_URL}/auth/login`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ email: username, password }),
+  });
+  return res.json();
+}
+
 export const api = {
   get: (endpoint: string) => fetchWithAuth(endpoint),
   post: (endpoint: string, data: unknown) =>
@@ -37,4 +46,5 @@ export const api = {
     fetchWithAuth(endpoint, {
       method: 'DELETE',
     }),
+  login,
 };
